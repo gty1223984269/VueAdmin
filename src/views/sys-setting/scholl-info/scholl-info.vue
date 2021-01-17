@@ -96,7 +96,7 @@ export default {
   created () {
     this.$Progress.start();
     api.getSysSchoolList().then((res) => {
-      this.schoolList = res.data;
+      this.schoolList = res.data.schoolList;
       this.$Progress.finish();
     });
   },

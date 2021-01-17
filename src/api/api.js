@@ -38,7 +38,7 @@ export const getSysMenuList = params => {
 };
 
 export const getSysSchoolList = params => {
-  return service.post('/syssetting/getSchoolList', params).then(res => res.data);
+  return service.post('http://127.0.0.1:8360/backEnd/schoolList', params).then(res => res.data);
 };
 
 let api = {
