@@ -37,7 +37,8 @@ export default {
     baseManage: () => import('views/sys-setting/base-manage/base-manage.vue'),
     runners: () => import('views/sys-setting/runners/runners.vue'),
     withdraw: () => import('views/sys-setting/withdraw/withdraw.vue'),
-    schollInfo: () => import('views/sys-setting/scholl-info/scholl-info.vue') // 异步组件
+    schollInfo: () => import('views/sys-setting/scholl-info/scholl-info.vue'),
+    productInfo: () => import('views/sys-setting/product-info/product-info.vue')// 异步组件
 
   }
 };

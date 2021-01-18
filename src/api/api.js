@@ -41,9 +41,24 @@ export const getSysSchoolList = params => {
   return service.post('http://127.0.0.1:8360/backEnd/schoolList', params).then(res => res.data);
 };
 
+export const getProductList = params => {
+  return service.post('http://127.0.0.1:8360/backEnd/productList', params).then(res => res.data);
+};
+
+export const saveProduct = params => {
+  return service.post('http://127.0.0.1:8360/backEnd/productSave', params).then(res => res.data);
+};
+
+export const deleteProduct = params => {
+  return service.post('http://127.0.0.1:8360/backEnd/productDelete', params).then(res => res.data);
+};
+
 let api = {
   getSysMenuList,
-  getSysSchoolList
+  getSysSchoolList,
+  getProductList,
+  saveProduct,
+  deleteProduct
 };
 
 export default api;
