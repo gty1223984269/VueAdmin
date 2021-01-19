@@ -27,7 +27,7 @@
       </div>
 
       <div class="dialog">
-        <el-dialog title="产品信息" :inline="true" :visible.sync="modalVisible" width="30%" :before-close="closeAddModal">
+        <el-dialog title="产品信息" :inline="true" :visible.sync="modalVisible" width="50%" :before-close="closeAddModal">
          <el-form ref="form" :model="form" label-width="100px" size="mini" class="demo-dynamic">
            <el-form-item label="ID" v-show="false">
              <el-input v-model="form.id"></el-input>
@@ -41,6 +41,18 @@
             <el-form-item label="图片路径：">
              <el-input v-model="form.img_path"></el-input>
             </el-form-item>
+            <el-form-item label="上传图片: ">
+               <el-upload
+                class="upload-demo"
+                drag
+                action="https://jsonplaceholder.typicode.com/posts/"
+                multiple>
+                <i class="el-icon-upload"></i>
+                <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+              </el-upload>
+            </el-form-item>
+          
           </el-form>
           <span slot="footer" class="dialog-footer">
             <el-button @click="closeAddModal">取 消</el-button>
