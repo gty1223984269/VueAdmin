@@ -3,7 +3,7 @@
       <el-form :inline="true" :model="formInline" size="small" class="demo-form-inline">
       </el-form>
       <el-table :data="schoolShowList" size="small" style="width: 100%;">
-        <el-table-column label="ID"  width="80" prop="id"></el-table-column>
+        <el-table-column label="ID" v-if="true"  width="80" prop="id"></el-table-column>
         <el-table-column label="名称" width="180" prop="title"></el-table-column>
         <el-table-column label="价格"  width="120" prop="money"></el-table-column>
         <el-table-column label="图片路径"  width="200" prop="img_path"></el-table-column>
@@ -45,7 +45,7 @@
                <el-upload
                 class="upload-demo"
                 drag
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action="http://127.0.0.1:8360/backEnd/uploadFile"
                 multiple>
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -103,19 +103,25 @@ export default {
         'img_path': '',
         'upload_time': ''
       };
-      this.form.id = this.productList.length;
+      // this.form.id = this.productList.length;
       this.modalVisible = true;
     },
     addRow () {
-      this.productList.push(this.form);
       this.modalVisible = false;
+      var row=this.form;
+      if(!row.id)
+      {
+      this.productList.push(this.form);
+      }
+      api.saveProduct(row).then((res) => {
+          this.$Progress.finish();
+    });
+      
     },
     toEditRow (row) {
       this.form = row;
       this.modalVisible = true;
-      api.saveProduct(row).then((res) => {
-      this.$Progress.finish();
-    });
+    
     },
     toDeleteRow (rowId) {
       this.$confirm('请确认是否删除?', '提示', {
@@ -124,6 +130,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this._deleteRow(rowId);
+        api.deleteProduct({id:rowId});
       });
     },
     closeAddModal () {
