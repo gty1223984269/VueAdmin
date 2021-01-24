@@ -3,12 +3,16 @@
       <el-form :inline="true" :model="formInline" size="small" class="demo-form-inline">
       </el-form>
       <el-table :data="schoolShowList" size="small" style="width: 100%;">
-        <el-table-column label="ID" v-if="true"  width="80" prop="id"></el-table-column>
+        <el-table-column label="ID" v-if="false"  width="80" prop="id"></el-table-column>
         <el-table-column label="名称" width="180" prop="title"></el-table-column>
         <el-table-column label="价格"  width="120" prop="money"></el-table-column>
-        <el-table-column label="图片路径"  width="200" prop="img_path"></el-table-column>
+        <el-table-column label="图片" width="180" >
+             <template slot-scope="scope">
+　　　　<img :src="scope.row.img_path" width="100" height="40" class="head_pic"/>
+　　</template>
+        </el-table-column>
         <el-table-column label="时间"  width="100" prop="upload_time"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="520">
+        <el-table-column fixed="right" label="操作" width="700">
           <template slot-scope="scope">
             <el-button @click.native.prevent="toAddRow()" size="small">增加</el-button>
             <el-button @click.native.prevent="toEditRow(scope.row)" type="primary" size="small">编辑</el-button>
@@ -38,12 +42,14 @@
             <el-form-item label="价格:">
              <el-input v-model="form.money"></el-input>
             </el-form-item>
-            <el-form-item label="图片路径：">
+            <el-form-item v-show="false" label="图片路径：">
              <el-input v-model="form.img_path"></el-input>
             </el-form-item>
             <el-form-item label="上传图片: ">
                <el-upload
                 class="upload-demo"
+                :on-success="afterUpload"
+                :limit="1"
                 drag
                 action="http://127.0.0.1:8360/backEnd/uploadFile"
                 multiple>
@@ -109,6 +115,7 @@ export default {
     addRow () {
       this.modalVisible = false;
       var row=this.form;
+      row.img_path=api.setIp()+row.img_path;
       if(!row.id)
       {
       this.productList.push(this.form);
@@ -144,6 +151,10 @@ export default {
           this.productList.splice(i, 1);
         }
       }
+    },
+   afterUpload(response, file, fileList)
+    {
+      this.form.img_path=response.data.filePath;
     }
   },
   computed: {

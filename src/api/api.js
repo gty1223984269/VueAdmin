@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {Message} from 'element-ui';
-
+let ip='http://127.0.0.1:8360';
 // create an axios instance
 const service = axios.create({
   baseURL: '/api', // api的base_url
@@ -34,27 +34,30 @@ service.interceptors.response.use(
   });
 
 export const getSysMenuList = params => {
-  return service.post('http://127.0.0.1:8360/backEnd/menuList', params).then(res => res.data);
+  return service.post(`${ip}/backEnd/menuList`, params).then(res => res.data);
 };
 
 export const getSysSchoolList = params => {
-  return service.post('http://127.0.0.1:8360/backEnd/schoolList', params).then(res => res.data);
+  return service.post(`${ip}/backEnd/schoolList`, params).then(res => res.data);
 };
 
 export const getProductList = params => {
-  return service.post('http://127.0.0.1:8360/backEnd/productList', params).then(res => res.data);
+  return service.post(`${ip}/backEnd/productList`, params).then(res => res.data);
 };
 
 export const saveProduct = params => {
-  return service.post('http://127.0.0.1:8360/backEnd/productSave', params).then(res => res.data);
+  return service.post(`${ip}/backEnd/productSave`, params).then(res => res.data);
 };
 
 export const deleteProduct = params => {
-  return service.post('http://127.0.0.1:8360/backEnd/productDelete', params).then(res => res.data);
+  return service.post(`${ip}/backEnd/productDelete`, params).then(res => res.data);
 };
 
 export const uploadFile = params => {
-  return service.post('http://127.0.0.1:8360/backEnd/uploadFile', params).then(res => res.data);
+  return service.post(`${ip}/backEnd/uploadFile`, params).then(res => res.data);
+};
+export const setIp = () => {
+  return  ip;
 };
 
 let api = {
@@ -62,7 +65,8 @@ let api = {
   getSysSchoolList,
   getProductList,
   saveProduct,
-  deleteProduct
+  deleteProduct,
+  setIp,
 };
 
 export default api;
