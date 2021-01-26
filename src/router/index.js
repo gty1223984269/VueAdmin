@@ -59,7 +59,7 @@ const router = new Router({
     },
     {
       path: '/flowTemplate', /* 404页面 */
-      component: flowTemplate,
+      component: NotFound,
       name: 'flowTemplate'
     },
     {
@@ -69,7 +69,7 @@ const router = new Router({
     },
     {
       path: '*', /* 默认跳转到登录界面 */
-      redirect: {path: '/flowTemplate'}
+      redirect: {path: '/login'}
     }
   ]
   // ,scrollBehavior(to, from, savedPosition) {// return 期望滚动到哪个的位置,第三个参数 savedPosition 当且仅当 popstate 导航 (通过浏览器的 前进/后退 按钮触发) 时才可用。

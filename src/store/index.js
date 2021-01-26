@@ -19,7 +19,9 @@ const store = new Vuex.Store({
       currentTab: {},
       tabIndex: 0,
       homeTabs: []
-    }
+    },
+    token:"",
+    userName:"" // 可选
   },
   mutations: {
     saveLogin (state) {
@@ -150,6 +152,21 @@ const store = new Vuex.Store({
       });
       state.userCenter.homeCurrentTab = activeName;
       state.userCenter.homeTabs = tabs.filter(tab => tab.name !== targetName);
+    },
+    set_token(state,token) {
+      localStorage.token = token;
+      state.token = token;
+      // state.token = token;
+      // localStorage.setItem('token', token);
+      // console.log('store、localstorage保存token成功！');
+    },
+    del_token(state) {
+      state.token = "";
+      storage.remove("token");
+    },
+    // 可选
+    setUserInfo(state, userName) {
+      state.userName = userName;
     }
   },
   getters: {

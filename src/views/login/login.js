@@ -1,3 +1,4 @@
+import api from 'api/index';
 export default {
   data () {
     return {
@@ -50,14 +51,21 @@ export default {
 
       if (!this.userName || !this.password) {
         this.errMessage = this.$t('login.emptyMsg');
-      } else if (this.userName === 'admin' && this.password === '123456') { // 判断用户名密码是否为空
-        this.errMessage = '';
-        this.$store.state.isLogin = true;
-        if (this.$route.query.redirect) { // 跳转到指定链接
-          this.$router.push({path: this.$route.query.redirect});
-        } else {
-          this.$router.push({path: '/sysSetting'});
-        }
+      } else if (this.userName === 'admin' && this.password === 'ckf') {
+        api.login({username:this.userName,password:this.password}).then((res)=>{
+           console.log(res)
+          this.$store.commit("set_token", res.data.token);
+          this.$store.commit("setUserInfo", res.data.userInfo.username);
+          // 判断用户名密码是否为空
+          this.errMessage = '';
+          this.$store.state.isLogin = true;
+          if (this.$route.query.redirect) { // 跳转到指定链接
+            this.$router.push({path: this.$route.query.redirect});
+          } else {
+            this.$router.push({path: '/sysSetting'});
+          }
+        });
+       
       } else {
         this.errMessage = this.$t('login.errMsg');
       }
