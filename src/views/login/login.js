@@ -2,10 +2,10 @@ import api from 'api/index';
 export default {
   data () {
     return {
-      userName: 'zh', // localStorage.getItem('loginName'),
+      userName: '', 
       password: '',
       errMessage: '',
-      rememberFlag: 'zh', // localStorage.getItem('rememberFlag'),
+      rememberFlag: 'zh', 
       langFlag: false,
       currentLang: '',
       random: Math.floor(Math.random(0, 1) * 3)
@@ -49,26 +49,28 @@ export default {
         // localStorage.removeItem('loginName');
       }
 
-      if (!this.userName || !this.password) {
+      if (!this.userName || !this.password) 
+      {
         this.errMessage = this.$t('login.emptyMsg');
-      } else if (this.userName === 'admin' && this.password === 'ckf') {
+        return;
+      }
+        
         api.login({username:this.userName,password:this.password}).then((res)=>{
-           console.log(res)
-          this.$store.commit("set_token", res.data.token);
-          this.$store.commit("setUserInfo", res.data.userInfo.username);
-          // 判断用户名密码是否为空
-          this.errMessage = '';
-          this.$store.state.isLogin = true;
-          if (this.$route.query.redirect) { // 跳转到指定链接
-            this.$router.push({path: this.$route.query.redirect});
-          } else {
+          console.log(res);
+          if(res.errno==0)
+          {
+            localStorage.setItem('token', res.data.token);
+            this.$store.commit("setUserInfo", res.data.userInfo.username);
+            // 判断用户名密码是否为空
+            this.errMessage = '';
+            this.$store.state.isLogin = true;
             this.$router.push({path: '/sysSetting'});
           }
+          else
+          {
+            this.errMessage =res.errmsg;
+          }
         });
-       
-      } else {
-        this.errMessage = this.$t('login.errMsg');
-      }
     }
   },
   computed: {

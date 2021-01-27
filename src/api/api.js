@@ -1,12 +1,12 @@
 import axios from 'axios';
-import {Message} from 'element-ui';
-let ip='http://127.0.0.1:8360';
+
+let ip = 'http://127.0.0.1:8360';
 let token = localStorage.getItem('token');
 // create an axios instance
 const service = axios.create({
   baseURL: '/api', // api的base_url
   timeout: 5000, // request timeout
-  headers:{'x-nideshop-token':token}
+  headers: { 'x-nideshop-token': token }
 });
 
 export const getSysMenuList = params => {
@@ -36,7 +36,7 @@ export const login = params => {
   return service.post(`${ip}/admin/auth/login`, params).then(res => res.data);
 };
 export const setIp = () => {
-  return  ip;
+  return ip;
 };
 
 let api = {

@@ -5,14 +5,14 @@
         <div class="r-form">
           <div class="f-title">
             <span class="user">{{$t('login.userLogin')}}</span>
-            <span class="lang" @click.stop="showLangFn">
+            <!-- <span class="lang" @click.stop="showLangFn">
               {{$t('login.languageDesc')}}
               <i class="down" :class="{'el-icon-arrow-down': !langFlag , 'el-icon-arrow-up': langFlag}"></i>
               <ul v-show="langFlag" class="lang-list">
                 <li><a @click="changeLangFn('zh')">{{$t('login.chinese')}}</a></li>
                 <li><a @click="changeLangFn('en')">{{$t('login.english')}}</a></li>
               </ul>
-            </span>
+            </span> -->
           </div>
           <div class="content-wrapper">
             <span class="arrow"></span>
@@ -35,13 +35,13 @@
               </section>
             </div>
           </div>
-          <p class="reme">
+          <!-- <p class="reme">
             <input type="checkbox"  id="saveUsername" name="reme-input">
             <label for="saveUsername" class="saveUsername" @click="rememberFn">
               <i class="checkbox" :class="{'checkbox-checked': rememberFlag}"></i>
               {{$t('login.remember')}}
             </label>
-          </p>
+          </p> -->
           <a @click="loginFn" class="login-btn">{{$t('login.loginBtn')}}</a>
           <p class="err-message">{{errMessage}}</p>
         </div>

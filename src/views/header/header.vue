@@ -93,8 +93,8 @@
       },
       _logoutFn () {
         this.$store.state.isLogin = false;
-        window.location.href = 'index.html';
-        // this.$router.push('/login');
+        this.$router.push({path: '/login'});
+        localStorage.removeItem('token')  
       }
     }
   };

@@ -14,8 +14,11 @@ export default {
   mounted () {
     this.$Progress.start(); // 显示进度条 http://hilongjw.github.io/vue-progressbar/index.html
     api.getSysMenuList().then((res) => {
-      this.menuList = res.data.menuList;
-      console.log(this.menuList);
+      console.log(res);
+      if(res.errno==0)
+      {
+        this.menuList = res.data.menuList;
+      }
       this.$Progress.finish();
     });
   },
