@@ -35,6 +35,9 @@ export const uploadFile = params => {
 export const login = params => {
   return service.post(`${ip}/admin/auth/login`, params).then(res => res.data);
 };
+export const getCategoryList = params => {
+  return service.post(`${ip}/admin/category/categoryList`, params).then(res => res.data);
+};
 export const setIp = () => {
   return ip;
 };
@@ -47,6 +50,7 @@ let api = {
   deleteProduct,
   setIp,
   login,
+  getCategoryList,
 };
 
 export default api;
