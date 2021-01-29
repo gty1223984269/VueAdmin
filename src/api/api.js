@@ -38,6 +38,12 @@ export const login = params => {
 export const getCategoryList = params => {
   return service.post(`${ip}/admin/category/categoryList`, params).then(res => res.data);
 };
+export const PostCategoryDelete = params => {
+  return service.post(`${ip}/admin/category/categoryDelete`, params).then(res => res.data);
+};
+export const PostCategoryAdd = params => {
+  return service.post(`${ip}/admin/category/categoryAdd`, params).then(res => res.data);
+};
 export const setIp = () => {
   return ip;
 };
@@ -51,6 +57,8 @@ let api = {
   setIp,
   login,
   getCategoryList,
+  PostCategoryDelete,
+  PostCategoryAdd,
 };
 
 export default api;
