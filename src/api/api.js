@@ -42,6 +42,7 @@ export const PostCategoryDelete = params => {
   return service.post(`${ip}/admin/category/categoryDelete`, params).then(res => res.data);
 };
 export const PostCategoryAdd = params => {
+  alert(3);
   return service.post(`${ip}/admin/category/categoryAdd`, params).then(res => res.data);
 };
 export const setIp = () => {

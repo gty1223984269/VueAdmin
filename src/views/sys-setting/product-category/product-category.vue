@@ -50,15 +50,10 @@ import api from 'api/index';
           this.$set(data, 'children', []);
         }
         data.children.push(newChild);
-        // api.PostCategogyAdd({parent_id:data.id,name:value}).then((res)=>{
-        // })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '取消添加'
-          });       
-        });
-       
+        console.log(2);
+        api.PostCategoryAdd({parent_id:data.id,name:value}).then((res)=>{
+        })
+        })
       },
 
       remove(node, data) {
