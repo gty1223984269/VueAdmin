@@ -18,15 +18,15 @@ export const getSysSchoolList = params => {
 };
 
 export const getProductList = params => {
-  return service.post(`${ip}/admin/backEnd/productList`, params).then(res => res.data);
+  return service.post(`${ip}/admin/goods/index`, params).then(res => res.data);
 };
 
-export const saveProduct = params => {
-  return service.post(`${ip}/admin/backEnd/productSave`, params).then(res => res.data);
+export const goodsSave = params => {
+  return service.post(`${ip}/admin/goods/goodsSave`, params).then(res => res.data);
 };
 
 export const deleteProduct = params => {
-  return service.post(`${ip}/admin/backEnd/productDelete`, params).then(res => res.data);
+  return service.post(`${ip}/admin/goods/destory`, params).then(res => res.data);
 };
 
 export const uploadFile = params => {
@@ -42,7 +42,6 @@ export const PostCategoryDelete = params => {
   return service.post(`${ip}/admin/category/categoryDelete`, params).then(res => res.data);
 };
 export const PostCategoryAdd = params => {
-  alert(3);
   return service.post(`${ip}/admin/category/categoryAdd`, params).then(res => res.data);
 };
 export const setIp = () => {
@@ -53,7 +52,7 @@ let api = {
   getSysMenuList,
   getSysSchoolList,
   getProductList,
-  saveProduct,
+  goodsSave,
   deleteProduct,
   setIp,
   login,

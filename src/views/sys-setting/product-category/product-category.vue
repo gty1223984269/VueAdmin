@@ -61,7 +61,7 @@ import api from 'api/index';
         const children = parent.data.children || parent.data;
         const index = children.findIndex(d => d.id === data.id);
         children.splice(index, 1);
-        api.PostCategoryDelete({}).then((res)=>{
+        api.PostCategoryDelete({id:data.id}).then((res)=>{
 
         })
       },

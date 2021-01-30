@@ -4,14 +4,13 @@
       </el-form>
       <el-table :data="schoolShowList" size="small" style="width: 100%;">
         <el-table-column label="ID" v-if="false"  width="80" prop="id"></el-table-column>
-        <el-table-column label="名称" width="180" prop="title"></el-table-column>
-        <el-table-column label="价格"  width="120" prop="money"></el-table-column>
+        <el-table-column label="名称" width="180" prop="name"></el-table-column>
+        <el-table-column label="价格"  width="120" prop="retail_price"></el-table-column>
         <el-table-column label="图片" width="180" >
              <template slot-scope="scope">
-　　　　<img :src="scope.row.img_path" width="100" height="40" class="head_pic"/>
+　　　　<img :src="scope.row.primary_pic_url" width="100" height="40" class="head_pic"/>
 　　</template>
         </el-table-column>
-        <el-table-column label="时间"  width="100" prop="upload_time"></el-table-column>
         <el-table-column fixed="right" label="操作" width="700">
           <template slot-scope="scope">
             <el-button @click.native.prevent="toAddRow()" size="small">增加</el-button>
@@ -37,13 +36,13 @@
              <el-input v-model="form.id"></el-input>
             </el-form-item>
             <el-form-item label="名称">
-             <el-input v-model="form.title"></el-input>
+             <el-input v-model="form.name"></el-input>
             </el-form-item>
             <el-form-item label="价格:">
-             <el-input v-model="form.money"></el-input>
+             <el-input v-model="form.retail_price"></el-input>
             </el-form-item>
-            <el-form-item v-show="false" label="图片路径：">
-             <el-input v-model="form.img_path"></el-input>
+            <el-form-item  label="图片路径：">
+             <el-input v-model="form.primary_pic_url"></el-input>
             </el-form-item>
             <el-form-item label="上传图片: ">
                <el-upload
@@ -51,7 +50,8 @@
                 :on-success="afterUpload"
                 :limit="1"
                 drag
-                action="http://127.0.0.1:8360/backEnd/uploadFile"
+                action="http://127.0.0.1:8360/admin/backEnd/uploadFile"
+                :headers="mytoken"
                 multiple>
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -84,43 +84,50 @@ export default {
       currentPage: 1,
       pageSize: 10,
       modalVisible: false,
-      form: {}
+      form: {},
+      itemCount:0,
+      mytoken: {'x-nideshop-token': localStorage.getItem('token')}
     };
   },
   created () {
     this.$Progress.start();
-    api.getProductList().then((res) => {
-      this.productList = res.data.productList;
-      this.$Progress.finish();
-    });
+    this.postList(1);
+    this.$Progress.finish();
+
   },
   methods: {
+    postList(currentPage)
+    {
+      api.getProductList({page:currentPage}).then((res) => {
+      this.productList = res.data.data;
+      this.itemCount=res.data.count
+    });
+    },
     handleSizeChange (val) {
       this.pageSize = val;
     },
     handleCurrentChange (val) {
-      this.currentPage = val;
+    this.postList(val);
     },
     toAddRow () {
       this.form = {
         'id': '',
-        'title': '',
-        'money': '',
-        'img_path': '',
+        'name': '',
+        'retail_price': '',
+        'primary_pic_url': '',
         'upload_time': ''
       };
-      // this.form.id = this.productList.length;
       this.modalVisible = true;
     },
     addRow () {
       this.modalVisible = false;
       var row=this.form;
-      row.img_path=api.setIp()+row.img_path;
+      row.primary_pic_url=api.setIp()+row.primary_pic_url;
       if(!row.id)
       {
       this.productList.push(this.form);
       }
-      api.saveProduct(row).then((res) => {
+      api.goodsSave(row).then((res) => {
           this.$Progress.finish();
     });
       
@@ -154,12 +161,12 @@ export default {
     },
    afterUpload(response, file, fileList)
     {
-      this.form.img_path=response.data.filePath;
+      this.form.primary_pic_url=response.data.filePath;
     }
   },
   computed: {
     pageCount () {
-      return this.productList.length;
+      return this.itemCount;
     },
     schoolShowList () {
       let ths = this;
