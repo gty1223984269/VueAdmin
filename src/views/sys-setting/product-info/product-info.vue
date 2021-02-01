@@ -38,6 +38,21 @@
             <el-form-item label="名称">
              <el-input v-model="form.name"></el-input>
             </el-form-item>
+            <el-form-item label="一级分类">
+            <el-select v-model="form.category" placeholder="请选择分类">
+               <el-option v-for="val in primaryCategoy" :key="val.index" :value="val.id" :label="val.name" />
+            </el-select>
+            </el-form-item>
+            <el-form-item label="二级分类">
+            <el-select v-model="form.category" placeholder="请选择分类">
+              <el-option v-for="val in secondaryCategory" :key="val.index" :value="val.id" :label="val.name" />  
+            </el-select>
+            </el-form-item>
+             <el-form-item label="品牌">
+            <el-select v-model="form.category" placeholder="请选择品牌">
+             <el-option v-for="val in brandList" :key="val.index" :value="val.id" :label="val.name" />  
+            </el-select>
+            </el-form-item>
             <el-form-item label="价格:">
              <el-input v-model="form.retail_price"></el-input>
             </el-form-item>
@@ -86,7 +101,10 @@ export default {
       modalVisible: false,
       form: {},
       itemCount:0,
-      mytoken: {'x-nideshop-token': localStorage.getItem('token')}
+      mytoken: {'x-nideshop-token': localStorage.getItem('token')},
+      primaryCategoy:[],
+      secondaryCategory:[],
+      brandList:[]
     };
   },
   created () {
@@ -115,7 +133,8 @@ export default {
         'name': '',
         'retail_price': '',
         'primary_pic_url': '',
-        'upload_time': ''
+        'upload_time': '',
+        'category':''
       };
       this.modalVisible = true;
     },
