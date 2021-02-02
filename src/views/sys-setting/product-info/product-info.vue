@@ -5,6 +5,11 @@
       <el-table :data="schoolShowList" size="small" style="width: 100%;">
         <el-table-column label="ID" v-if="false"  width="80" prop="id"></el-table-column>
         <el-table-column label="名称" width="180" prop="name"></el-table-column>
+        <el-table-column v-if="false" width="180" prop="category_id"></el-table-column>
+        <el-table-column v-if="false" width="180" prop="parent_id"></el-table-column>
+        <el-table-column v-if="false"  width="180" prop="brand_id"></el-table-column>
+         <el-table-column label="分类" width="180" prop="categoryName"></el-table-column>
+        <el-table-column label="品牌" width="180" prop="brandName"></el-table-column>
         <el-table-column label="价格"  width="120" prop="retail_price"></el-table-column>
         <el-table-column label="图片" width="180" >
              <template slot-scope="scope">
@@ -187,6 +192,9 @@ export default {
     },
     toEditRow (row) {
       this.form = row;
+      this.form.brandId=row.brand_id,
+      this.form.secondaryCategoryId=row.category_id,
+      this.form.primaryCategoyId=row.parent_id,
       this.modalVisible = true;
     
     },
