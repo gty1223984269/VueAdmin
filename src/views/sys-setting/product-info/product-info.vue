@@ -35,28 +35,28 @@
            <el-form-item label="ID" v-show="false">
              <el-input v-model="form.id"></el-input>
             </el-form-item>
-            <el-form-item label="名称">
+            <el-form-item label="名称" prop="name">
              <el-input v-model="form.name"></el-input>
             </el-form-item>
-            <el-form-item label="一级分类">
+            <el-form-item label="一级分类" prop="primaryCategoyId">
             <el-select v-model="form.primaryCategoyId" placeholder="请选择分类" @change="categoryChange">
                <el-option v-for="val in primaryCategoyList" :key="val.index" :value="val.id" :label="val.name" />
             </el-select>
             </el-form-item>
-            <el-form-item label="二级分类">
+            <el-form-item label="二级分类" prop="secondaryCategoryId">
             <el-select v-model="form.secondaryCategoryId" placeholder="请选择分类">
               <el-option v-for="val in secondaryCategoryList" :key="val.index" :value="val.id" :label="val.name" />  
             </el-select>
             </el-form-item>
-             <el-form-item label="品牌">
+             <el-form-item label="品牌" prop="brandId">
             <el-select v-model="form.brandId" placeholder="请选择品牌">
              <el-option v-for="val in brandList" :key="val.index" :value="val.id" :label="val.name" />  
             </el-select>
             </el-form-item>
             <el-form-item label="价格:" prop="retail_price">
-             <el-input v-model="form.retail_price"></el-input>
+             <el-input v-model.number="form.retail_price"></el-input>
             </el-form-item>
-            <el-form-item  label="图片路径：">
+            <el-form-item prop="primary_pic_url"  label="图片路径：">
              <el-input v-model="form.primary_pic_url"></el-input>
             </el-form-item>
             <el-form-item label="上传图片: ">
@@ -77,7 +77,7 @@
           </el-form>
           <span slot="footer" class="dialog-footer">
             <el-button @click="closeAddModal">取 消</el-button>
-            <el-button type="primary" @click="addRow">确 定</el-button>
+            <el-button type="primary" @click="addRow(form)">确 定</el-button>
           </span>
         </el-dialog>
       </div>
@@ -110,7 +110,22 @@ export default {
           retail_price: [
             { required: true, message: '请输入零售价格', trigger: 'blur' },
              { type: 'number', message: '零售价格为数字值'}
-          ]
+          ],
+           name: [
+            { required: true, message: '请输入商品名称', trigger: 'blur' },
+          ],
+           primary_pic_url: [
+            { required: true, message: '请上传图片', trigger: 'blur' },
+          ],
+          primaryCategoyId: [
+            { required: true, message: '请选择一级分类', trigger: 'blur' },
+          ],
+          secondaryCategoryId: [
+            { required: true, message: '请选择二级分类', trigger: 'blur' },
+          ],
+          brandId: [
+            { required: true, message: '请选择品牌', trigger: 'blur' },
+          ], 
         }
       };
   },
@@ -149,17 +164,25 @@ export default {
       };
       this.modalVisible = true;
     },
-    addRow () {
-      this.modalVisible = false;
-      var row=this.form;
-      row.primary_pic_url=api.setIp()+row.primary_pic_url;
-      if(!row.id)
-      {
-      this.productList.push(this.form);
-      }
-      api.goodsSave(row).then((res) => {
-          this.$Progress.finish();
-    });
+    addRow (form) {
+      this.$refs.form.validate((valid) => {
+          if (valid) {
+              this.modalVisible = false;
+              var row=this.form;
+              row.primary_pic_url=api.setIp()+row.primary_pic_url;
+              if(!row.id)
+              {
+              this.productList.push(this.form);
+              }
+              api.goodsSave(row).then((res) => {
+                  this.$Progress.finish();
+            });
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+
       
     },
     toEditRow (row) {
