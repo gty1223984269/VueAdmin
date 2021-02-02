@@ -47,7 +47,12 @@ export const PostCategoryAdd = params => {
 export const setIp = () => {
   return ip;
 };
-
+export const PostCategoryList = params => {
+  return service.post(`${ip}/admin/category/allCategory`, params).then(res => res.data);
+};
+export const PostBrandList = params => {
+  return service.post(`${ip}/admin/category/allBrand`, params).then(res => res.data);
+};
 let api = {
   getSysMenuList,
   getSysSchoolList,
@@ -59,6 +64,8 @@ let api = {
   getCategoryList,
   PostCategoryDelete,
   PostCategoryAdd,
+  PostCategoryList,
+  PostBrandList,
 };
 
 export default api;

@@ -31,7 +31,7 @@
 
       <div class="dialog">
         <el-dialog title="产品信息" :inline="true" :visible.sync="modalVisible" width="50%" :before-close="closeAddModal">
-         <el-form ref="form" :model="form" label-width="100px" size="mini" class="demo-dynamic">
+         <el-form ref="form" :model="form" :rules="rules" label-width="100px" size="mini" class="demo-dynamic">
            <el-form-item label="ID" v-show="false">
              <el-input v-model="form.id"></el-input>
             </el-form-item>
@@ -39,21 +39,21 @@
              <el-input v-model="form.name"></el-input>
             </el-form-item>
             <el-form-item label="一级分类">
-            <el-select v-model="form.category" placeholder="请选择分类">
-               <el-option v-for="val in primaryCategoy" :key="val.index" :value="val.id" :label="val.name" />
+            <el-select v-model="form.primaryCategoyId" placeholder="请选择分类" @change="categoryChange">
+               <el-option v-for="val in primaryCategoyList" :key="val.index" :value="val.id" :label="val.name" />
             </el-select>
             </el-form-item>
             <el-form-item label="二级分类">
-            <el-select v-model="form.category" placeholder="请选择分类">
-              <el-option v-for="val in secondaryCategory" :key="val.index" :value="val.id" :label="val.name" />  
+            <el-select v-model="form.secondaryCategoryId" placeholder="请选择分类">
+              <el-option v-for="val in secondaryCategoryList" :key="val.index" :value="val.id" :label="val.name" />  
             </el-select>
             </el-form-item>
              <el-form-item label="品牌">
-            <el-select v-model="form.category" placeholder="请选择品牌">
+            <el-select v-model="form.brandId" placeholder="请选择品牌">
              <el-option v-for="val in brandList" :key="val.index" :value="val.id" :label="val.name" />  
             </el-select>
             </el-form-item>
-            <el-form-item label="价格:">
+            <el-form-item label="价格:" prop="retail_price">
              <el-input v-model="form.retail_price"></el-input>
             </el-form-item>
             <el-form-item  label="图片路径：">
@@ -102,15 +102,24 @@ export default {
       form: {},
       itemCount:0,
       mytoken: {'x-nideshop-token': localStorage.getItem('token')},
-      primaryCategoy:[],
-      secondaryCategory:[],
-      brandList:[]
-    };
+      primaryCategoyList:[],
+      secondaryCategoryList:[],
+      originalSecondaryCategoryList:[],
+      brandList:[],
+      rules: {
+          retail_price: [
+            { required: true, message: '请输入零售价格', trigger: 'blur' },
+             { type: 'number', message: '零售价格为数字值'}
+          ]
+        }
+      };
   },
   created () {
     this.$Progress.start();
     this.postList(1);
     this.$Progress.finish();
+    this.SetCategoryList();
+    this.SetBrandList();
 
   },
   methods: {
@@ -134,7 +143,9 @@ export default {
         'retail_price': '',
         'primary_pic_url': '',
         'upload_time': '',
-        'category':''
+        'primaryCategoryId':'',
+        'secondaryCategoryId':'',
+        'brandId':'',
       };
       this.modalVisible = true;
     },
@@ -181,6 +192,30 @@ export default {
    afterUpload(response, file, fileList)
     {
       this.form.primary_pic_url=response.data.filePath;
+    },
+    SetCategoryList()
+    {
+     api.PostCategoryList().then((res)=>{
+       var data =res.data;
+       var primaryCategoyList=data.filter(x=>x.level=='L1');
+       var secondaryCategoryList =data.filter(x=>x.level=='L2');
+       this.primaryCategoyList=primaryCategoyList;
+       this.secondaryCategoryList=secondaryCategoryList;
+       this.originalSecondaryCategoryList=secondaryCategoryList;
+       console.log(res);
+     })
+    },
+    SetBrandList()
+    {
+      api.PostBrandList().then((res)=>{
+      var data =res.data;
+      this.brandList=data;
+      })
+    },
+
+    categoryChange(val)
+    {
+      this.secondaryCategoryList=this.originalSecondaryCategoryList.filter(x=>x.parent_id==val);
     }
   },
   computed: {
