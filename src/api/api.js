@@ -18,7 +18,7 @@ export const getSysSchoolList = params => {
 };
 
 export const getProductList = params => {
-  return service.post(`${ip}/admin/goods/index`, params).then(res => res.data);
+  return service.post(`${ip}/admin/goods/goodList`, params).then(res => res.data);
 };
 
 export const goodsSave = params => {
