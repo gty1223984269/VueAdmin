@@ -13,6 +13,14 @@ export const getSysMenuList = params => {
   return service.post(`${ip}/admin/backEnd/menuList`, params).then(res => res.data);
 };
 
+export const PostMenuAdd = params => {
+  return service.post(`${ip}/admin/backEnd/menuAdd`, params).then(res => res.data);
+};
+
+export const PostMenuRemove = params => {
+  return service.post(`${ip}/admin/backEnd/menuRemove`, params).then(res => res.data);
+};
+
 export const getSysSchoolList = params => {
   return service.post(`${ip}/admin/backEnd/schoolList`, params).then(res => res.data);
 };
@@ -53,6 +61,9 @@ export const PostCategoryList = params => {
 export const PostBrandList = params => {
   return service.post(`${ip}/admin/category/allBrand`, params).then(res => res.data);
 };
+export const PostOrderList = params => {
+  return service.post(`${ip}/admin/order/index`, params).then(res => res.data);
+};
 let api = {
   getSysMenuList,
   getSysSchoolList,
@@ -66,6 +77,9 @@ let api = {
   PostCategoryAdd,
   PostCategoryList,
   PostBrandList,
+  PostOrderList,
+  PostMenuAdd,
+  PostMenuRemove,
 };
 
 export default api;
