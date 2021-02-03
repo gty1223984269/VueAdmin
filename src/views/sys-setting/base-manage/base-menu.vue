@@ -27,6 +27,31 @@
       </span>
     </el-tree>
   </div>
+     <div class="dialog">
+        <el-dialog title="菜单信息" :inline="true" :visible.sync="modalVisible" width="50%" :before-close="closeAddModal">
+         <el-form ref="form" :model="form" :rules="rules" label-width="100px" size="mini" class="demo-dynamic">
+           <el-form-item label="ID" v-show="false">
+             <el-input v-model="form.id"></el-input>
+            </el-form-item>
+            <el-form-item label="菜单名称" prop="name">
+             <el-input v-model="form.name"></el-input>
+            </el-form-item>
+            <el-form-item label="组件名称" prop="comp">
+             <el-input v-model="form.comp"></el-input>
+            </el-form-item>
+            <el-form-item label="组件路径" prop="url">
+             <el-input v-model="form.url"></el-input>
+            </el-form-item>
+             <el-form-item label="父节点" prop="parentId">
+             <el-input v-model="form.parentId"></el-input>
+            </el-form-item>
+          </el-form>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="closeAddModal">取 消</el-button>
+            <el-button type="primary" @click="addRow(form)">确 定</el-button>
+          </span>
+        </el-dialog>
+      </div>
 </div>
 </template>
 <script type="text/ecmascript-6">
@@ -37,61 +62,72 @@ import api from 'api/index';
     data() {
       return {
         data: [],
+        form: {},
+        rules:
+        {
+            name: [
+            { required: true, message: '请输入菜单名称', trigger: 'blur' },
+          ],
+            comp: [
+            { required: true, message: '请输入组件名称', trigger: 'blur' },
+          ],
+          url: [
+            { required: true, message: '请输入组件路径', trigger: 'blur' },
+          ],
+          parentId: [
+            { required: true, message: '请输入父节点', trigger: 'blur' },
+          ],
+        },
+        modalVisible: false,
       }
     },
-
     methods: {
       append(data) {
-        this.$prompt('请输入菜单名称', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-        }).then(({ value }) => {
-        const newChild = { id: id++, label: value, children: [] };
-        if (!data.children) {
-          this.$set(data, 'children', []);
-        }
-        data.children.push(newChild);
-        let menuId='';
-        let menuNameCn='';
-        let menuNameEn='';
-        let iconCls='';
-        let comp='';
-        let url='';
-        let parentId='';
-         const menu=
-         {
-          menuId:menuId,
-          menuNameCn:menuNameCn,
-          menuNameEn:menuNameEn,
-          iconCls:iconCls,
-          comp:comp,
-          url:url,
-          parentId:parentId
-        };
-        api.PostMenuAdd(menu).then((res)=>{
-        })
-        })
+        this.form.parentId=data.id;
+        this.modalVisible = true;
       },
-
       remove(node, data) {
         const parent = node.parent;
         const children = parent.data.children || parent.data;
         const index = children.findIndex(d => d.id === data.id);
         children.splice(index, 1);
         api.PostMenuRemove({id:data.id}).then((res)=>{
-
         })
+          },
+        closeAddModal () {
+        this.modalVisible = false;
       },
-        
-    },
-    created () {
-    this.$Progress.start();
-    api.getSysMenuList().then((res) => {
-      this.data = res.data.menuList;
-      this.$Progress.finish();
-    });
-  },
 
+      addRow (form) {
+      this.$refs.form.validate((valid) => {
+          if (valid) {
+              this.modalVisible = false;
+              var row=this.form;
+              console.log(row)
+              api.PostMenuAdd(row).then((res)=>{
+              })
+            } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+        this.setDataList();
+        },
+       setDataList()
+       {
+        this.$Progress.start();
+        api.getSysMenuList().then((res) => {
+        this.data = res.data.menuList;
+        this.$Progress.finish();
+      });
+
+       }
+       },
+      created () {
+      this.setDataList();
+      },
+
+     
   };
 </script>
 
