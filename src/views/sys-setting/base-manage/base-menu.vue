@@ -4,6 +4,7 @@
     <el-tree
       :data="data"
       :props="{label: 'menuNameCn'}"
+      :highlight-current=true
       show-checkbox
       node-key="id"
       default-expand-all
