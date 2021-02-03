@@ -5,10 +5,10 @@
     </a>
     <el-menu :default-active="activeSysIndex" class="sys-menu" mode="horizontal" @select="handleSelect">
       <el-menu-item index="sysSetting">{{$t('header.settingManage')}}</el-menu-item>
-      <el-menu-item index="userCenter">{{$t('header.userCenter')}}</el-menu-item>
+      <!-- <el-menu-item index="userCenter">{{$t('header.userCenter')}}</el-menu-item> -->
       <el-menu-item index="companyHelp">{{$t('header.companyHelp')}}</el-menu-item>
-      <el-menu-item index="jsplumbLearn">学习jsplumb</el-menu-item>
-      <el-menu-item index="flowTemplate">流程模板</el-menu-item>
+      <!-- <el-menu-item index="jsplumbLearn">学习jsplumb</el-menu-item> -->
+      <!-- <el-menu-item index="flowTemplate">流程模板</el-menu-item> -->
     </el-menu>
     <el-dropdown @command="userOperationFn" class="user">
       <i class="user-icon"></i>

@@ -15,7 +15,7 @@ export default {
   },
   header: {
     sysName: 'VUE 案例系统',
-    settingManage: '配置管理',
+    settingManage: '首页',
     userCenter: '用户中心',
     companyHelp: '企业帮助',
     setting: '设置',
