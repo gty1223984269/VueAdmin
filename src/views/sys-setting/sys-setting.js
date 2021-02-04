@@ -43,6 +43,7 @@ export default {
     schollInfo: () => import('views/sys-setting/scholl-info/scholl-info.vue'),
     productInfo: () => import('views/sys-setting/product-info/product-info.vue'),
     productCategory: () => import('views/sys-setting/product-category/product-category.vue'),
-    baseMenu: () => import('views/sys-setting/base-manage/base-menu.vue'),// 异步组件
+    baseMenu: () => import('views/sys-setting/base-manage/base-menu.vue'),
+    orderInfo: () => import('views/sys-setting/order-manage/order-info.vue'),// 异步组件
   }
 };

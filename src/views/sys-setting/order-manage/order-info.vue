@@ -5,8 +5,8 @@
       <el-table :data="orderShowList" size="small" style="width: 100%;">
         <el-table-column label="ID" v-if="false"  width="80" prop="id"></el-table-column>
         <el-table-column label="用户ID" width="180" prop="user_id"></el-table-column>
-        <el-table-column label="订单状态" width="180" prop="order_status"></el-table-column>
-        <el-table-column label="付款状态" width="180" prop="pay_status"></el-table-column>
+        <el-table-column label="订单状态" width="180" prop="order_status" :formatter="orderStatusFormatter"></el-table-column>
+        <el-table-column label="付款状态" width="180" prop="pay_status" :formatter="payStatusFormatter"></el-table-column>
         <el-table-column label="收件人"  width="120" prop="consignee"></el-table-column>
         <el-table-column label="国家"  width="120" prop="country"></el-table-column>
         <el-table-column label="省"  width="120" prop="province"></el-table-column>
@@ -84,7 +84,7 @@
 
 <script type="text/ecmascript-6">
 import api from 'api/index';
-
+import enumJS from 'common/js/enum';
 export default {
   data () {
     return {
@@ -133,9 +133,49 @@ export default {
     this.$Progress.finish();
   },
   methods: {
+    orderStatusFormatter(data)
+    {
+      let type = data.order_status;
+      switch (type) {
+        case 0:
+          type = "新建";
+          break;
+        case 1:
+          type = "已支付";
+          break;
+        case 2:
+          type = "已送货";
+          break;
+        case 3:
+          type = "已完成";
+          break;
+        case 4:
+          type = "已取消";
+        case 5:
+            type = "已退款";  
+          break;
+      }
+      return type;
+    },
+
+    payStatusFormatter(data)
+    {
+     let type =data.pay_status;
+     switch(type)
+     {
+       case 0:
+            type ='未支付';
+            break;
+       case 1:
+            type='已支付';
+            break;
+     }
+       return type;
+    },
     postList(currentPage)
     {
       api.PostOrderList({page:currentPage}).then((res) => {
+      console.log(res);
       this.orderList = res.data.data;
       this.itemCount=res.data.count
     });
